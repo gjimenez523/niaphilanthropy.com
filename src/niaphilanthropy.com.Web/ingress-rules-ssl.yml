@@ -1,0 +1,56 @@
+﻿apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+    annotations:
+      kubernetes.io/ingress.class: nginx
+      certmanager.k8s.io/cluster-issuer: letsencrypt-prod
+      nginx.ingress.kubernetes.io/rewrite-target: /
+      #kubernetes.io/tls-acme: "true"
+    name: ingress-rules
+    namespace: default
+spec:
+    rules:
+      #- host: localhost
+      - host: niaphilanthropy.com
+        http:
+          paths:
+            - path: /
+              backend:
+                serviceName: niaphilanthropy-www-mvc-service
+                servicePort: 80
+      - host: www.niaphilanthropy.com
+        http:
+          paths:
+            - path: /
+              backend:
+                serviceName: niaphilanthropy-www-mvc-service
+                servicePort: 80
+      - host: dsnacorp.com
+        http:
+          paths:
+            - path: /
+              backend:
+                serviceName: dsnacorp-www-mvc-service
+                servicePort: 80
+      - host: www.dsnacorp.com
+        http:
+          paths:
+            - path: /
+              backend:
+                serviceName: dsnacorp-www-mvc-service
+                servicePort: 80
+      - host: soonie.net
+        http:
+          paths:
+            - path: /
+              backend:
+                serviceName: soonie-www-vue-service
+                servicePort: 80
+    tls:
+    - hosts:
+      - niaphilanthropy.com
+      - www.niaphilanthropy.com
+      - dsnacorp.com
+      - www.dsnacorp.com
+      - soonie.net
+      secretName: soonie-tls-secret

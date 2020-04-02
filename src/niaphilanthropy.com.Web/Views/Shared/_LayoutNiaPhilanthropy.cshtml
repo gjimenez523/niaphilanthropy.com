@@ -1,0 +1,708 @@
+﻿@using System.Globalization
+@using Abp.Timing
+@using niaphilanthropy.com.Web.Views.Shared.Components.LanguageSelection
+@using niaphilanthropy.com.Web.Views.Shared.Components.TopMenu
+@using Abp.Web.Security.AntiForgery
+@inject IAbpAntiForgeryManager AbpAntiForgeryManager
+@using Abp.Web.Mvc.Alerts
+@inject IAlertManager AlertManager
+@{
+    AbpAntiForgeryManager.SetCookie(Context);
+}
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-134604015-1"></script>
+    <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-134604015-1');
+    </script>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1" />
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="~/images/logo_niaphilanthropy_1280_26E_icon.ico">
+    <title>NIA Philanthropy</title>
+    <!-- Global styles -->
+    <environment names="Development">
+        @*<link rel="stylesheet" href="~/lib/bootstrap-paper/bootstrap.css" />*@
+        @*<link rel="stylesheet" href="~/lib/toastr/toastr.css" />
+            <link rel="stylesheet" href="~/lib/sweetalert/dist/sweetalert.css" />
+            <link rel="stylesheet" href="~/lib/famfamfam-flags/dist/sprite/famfamfam-flags.css" />
+            <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
+            <link rel="stylesheet" href="~/css/main.css" />*@
+    </environment>
+    <environment names="Staging,Production">
+        @*<link rel="stylesheet" href="~/view-resources/Views/_Bundles/layout-libs.min.css" asp-append-version="true" />*@
+    </environment>
+    <!-- View specific styles -->
+    @*@RenderSection("styles", required: false)*@
+    @*<script type="text/javascript">
+            //This is used to get the application's root path from javascript. It's useful if you're running application in a virtual directory under IIS.
+            var abp = abp || {}; abp.appPath = '@ApplicationPath';
+        </script>*@
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    @*<!--[if lt IE 9]>
+            <script src="@Url.Content("~/Scripts/others/html5shiv.js")"></script>
+            <script src="@Url.Content("~/Scripts/others/respond.min.js")"></script>
+        <![endif]-->*@
+    @*@Scripts.Render("~/Bundles/vendor/js/top")*@
+
+    <!--BEGIN: POFO THEME-->
+    <!-- animation -->
+    <link rel="stylesheet" href="~/lib/pofo/css/animate.css" />
+    <!-- bootstrap -->
+    <link rel="stylesheet" href="~/lib/pofo/css/bootstrap.min.css" />
+    <!-- et line icon -->
+    <link rel="stylesheet" href="~/lib/pofo/css/et-line-icons.css" />
+    <!-- font-awesome icon -->
+    <link rel="stylesheet" href="~/lib/pofo/css/font-awesome.min.css" />
+    <!-- themify icon -->
+    <link rel="stylesheet" href="~/lib/pofo/css/themify-icons.css">
+    <!-- swiper carousel -->
+    <link rel="stylesheet" href="~/lib/pofo/css/swiper.min.css">
+    <!-- justified gallery  -->
+    <link rel="stylesheet" href="~/lib/pofo/css/justified-gallery.min.css">
+    <!-- magnific popup -->
+    <link rel="stylesheet" href="~/lib/pofo/css/magnific-popup.css" />
+    <!-- revolution slider -->
+    <link rel="stylesheet" href="~/lib/revolution/css/settings.css" media="screen" />
+    <link rel="stylesheet" href="~/lib/revolution/css/layers.css">
+    <link rel="stylesheet" href="~/lib/revolution/css/navigation.css">
+    <!-- bootsnav -->
+    <link rel="stylesheet" href="~/lib/pofo/css/bootsnav.css">
+    <!-- style -->
+    <link rel="stylesheet" href="~/lib/pofo/css/style.css" />
+    <!-- responsive css -->
+    <link rel="stylesheet" href="~/lib/pofo/css/responsive.css" />
+    <!--END: POFO THEME-->
+    <style id="fit-vids-style">
+        .fluid-width-video-wrapper {
+            width: 100%;
+            position: relative;
+            padding: 0;
+        }
+
+            .fluid-width-video-wrapper iframe, .fluid-width-video-wrapper object, .fluid-width-video-wrapper embed {
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+            }
+    </style>
+
+    <style>
+        header a.logo img {
+            width: auto !important;
+            height: auto !important;
+            /*width: 40%;
+            height: 40%;*/
+            padding-top: 20px;
+            max-height: 140px;
+        }
+
+        .navbar {
+            -webkit-box-shadow: 0 0px 0px rgba(0,0,0,.3);
+            box-shadow: 0 0px 0px rgba(0,0,0,.3);
+        }
+
+        .nia-menu-image {
+            /*max-width: 90px;
+            height: 40%;
+            max-height: 125px;*/
+            width: 200px;
+        }
+
+        @@media only screen and (max-width: 350px) {
+            niap-swiper {
+                padding-top: 150px;
+            }
+
+            niap-content {
+                font-size: 20vw;
+            }
+        }
+
+        .niap-content {
+            /*font-size:34pt;*/
+        }
+
+        .text-deep-orange {
+            color: #ff5a26;
+        }
+
+        .bg-deep-orange {
+            background-color: #ff5a26;
+        }
+
+        .text-deep-green {
+            color: #016937;
+        }
+
+        .bg-deep-green {
+            background-color: #016937;
+        }
+
+        .text-middle-line:before {
+            top: 0px;
+        }
+
+        .footer-logo {
+            width: 60%;
+            height: 40%;
+            max-width: 90px;
+            max-height: 125px;
+        }
+
+        a:hover {
+            color: #009147 !important;
+        }
+
+        a:hover, a:active {
+            color: #009147 !important;
+        }
+
+        li.dropdown:hover {
+            color: #009147 !important;
+        }
+
+        .link-style-2 {
+            color: #009147 !important;
+        }
+    </style>
+</head>
+<body class="width-100">
+    <!-- start header -->
+    <header>
+        <!-- start navigation -->
+        <nav class="navbar full-width-pull-menu nav-top-scroll no-border-top no-transition">
+            <!-- start navigation panel -->
+            <div class="container-fluid nav-header-container height-100px padding-three-half-lr xs-height-70px xs-padding-15px-lr">
+                <div class="row">
+                    <!-- start logo -->
+                    <div class="col-md-2 col-sm-3 col-xs-8 pull-left">
+                        <a href="index.html" title="NIA Philanthropy" class="logo">
+                            <img src="images/logo_NiaPhilanthropy_Proof3_1280.png" data-at2x="images/logo_NiaPhilanthropy_Proof3_1280.png" alt="NIA Philanthropy">
+                        </a>
+                    </div>
+                    <!-- end logo -->
+                    <!-- start main menu -->
+                    <div class="col-md-10 col-sm-9 col-xs-4">
+                        <div class="menu-wrap full-screen no-padding">
+                            <div class="col-sm-6 no-padding hidden-xs">
+                                <div class="cover-background full-screen"
+                                     style="background-color:white;">
+                                    <div class=""></div>
+                                    <div class="position-absolute height-100 width-100 text-center">
+                                        <div class="display-table height-100 width-100">
+                                            <div class="display-table-cell height-100 width-100 vertical-align-middle position-relative">
+                                                <a href="">
+                                                    <img class="nia-menu-image" alt="" src="images/logo_NiaPhilanthropy_Proof3_1280.png" data-at2x="images/logo_NiaPhilanthropy_Proof3_1280.png">
+                                                </a>
+                                                <div class="position-absolute bottom-50 text-center width-100 margin-30px-bottom">
+                                                    <div class="text-small text-extra-medium-gray">
+                                                        &copy; 2019 NIA Philanthropy is Powered by <a href="http://soonie.net" target="_blank" title="sooNiE">sooNiE</a>.
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-sm-6 no-padding bg-white full-screen">
+                                <div class="position-absolute height-100 width-100 overflow-auto">
+                                    <div class="display-table height-100 width-100">
+                                        <div class="display-table-cell height-100 width-100 vertical-align-middle padding-fourteen-lr alt-font link-style-2 sm-padding-seven-lr xs-padding-15px-lr">
+                                            <!-- start menu -->
+                                            <ul class="font-weight-600 xs-no-padding-left">
+                                                <!-- start menu item -->
+                                                <li class="dropdown">
+                                                    <a href="">Home</a><span data-toggle="dropdown" class="dropdown-toggle"></span>
+                                                    @*<ul class="dropdown-menu font-weight-300">
+                                                            <li><a href="index.html">Classic corporate</a></li>
+                                                            <li><a href="home-creative-studio.html">Creative studio</a></li>
+                                                            <li><a href="home-portfolio-minimal.html">Portfolio minimal</a></li>
+                                                            <li><a href="home-blog-personal.html">Blog personal</a></li>
+                                                        </ul>*@
+                                                </li>
+                                                <!-- end menu item -->
+
+                                            </ul>
+                                            <!-- end menu -->
+                                            <!-- start solcial links -->
+                                            <div class="margin-fifteen-top padding-35px-left xs-no-padding-left" style="text-align:center;">
+                                                <div class="icon-social-medium margin-three-bottom">
+                                                    <a class="twitter text-extra-dark-gray" href="http://www.twitter.com/niaphilanthropy" target="_blank"><i class="fa fa-twitter"></i></a>
+                                                    <a class="linkedin text-extra-dark-gray" href="https://www.linkedin.com/company/niaphilanthropy" target="_blank"><i class="fa fa-linkedin no-margin-right" aria-hidden="true"></i></a>
+
+                                                </div>
+                                            </div>
+                                            <!-- end social links -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <button class="close-button-menu" id="close-button"></button>
+                            </div>
+                        </div>
+                        <!-- end main menu -->
+                        <button class="navbar-toggle mobile-toggle" type="button" id="open-button" data-toggle="collapse" data-target=".navbar-collapse">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </button>
+                    </div>
+                    <!-- end main menu -->
+                </div>
+            </div>
+            <!-- end navigation panel -->
+        </nav>
+        <!-- end navigation -->
+    </header>
+    @*@RenderBody()*@
+    <!-- end header -->
+    @*<div class="container body-content">
+            @if (AlertManager.Alerts.Any())
+            {
+            <div id="AbpPageAlerts">
+                @foreach (var alertMessage in AlertManager.Alerts)
+                    {
+                <div class="alert alert-@alertMessage.Type.ToString().ToLower() @(alertMessage.Dismissible ? "alert-dismisable" : "")" role="alert">
+                    <h4 class="alert-heading">
+                        @alertMessage.Title
+                        @if (alertMessage.Dismissible)
+                                {
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                }
+                    </h4>
+                    <p>@alertMessage.Text</p>
+                </div>
+                    }
+            </div>
+            }
+            @RenderBody()
+        </div>*@
+
+    <!-- start slider section -->
+    <section class="wow fadeIn no-padding">
+        <div class="container">
+            <div class="row niap-swiper">
+                <div class="col-md-12">
+                    <div class="swiper-number-pagination swiper-container black-move">
+                        <div class="bg-transparent-white opacity-full-dark z-index-5 sm-display-none"></div>
+                        <div class="swiper-wrapper">
+                            <!-- start slider item -->
+                            <div class="swiper-slide">
+                                <div class="slider-half-small-screen position-relative bg-white">
+                                    <div class="slider-typography text-left">
+                                        <div class="slider-text-middle-main" style="background-image: url('/images/iso_Analytics.png');background-repeat: no-repeat;background-size: 50%;background-position-x: 110%;background-position-y: 95%;background-position-x: padding-box;/* background-blend-mode: luminosity; */background-color: rgba(255, 255, 255, 0.1);">
+                                            <div class="slider-text-middle">
+                                                <span class="text-extra-large text-middle-line font-weight-300 text-deep-orange display-block margin-two-bottom width-50 xs-width-65 niap-title">
+                                                    Social Investments + Insights = Social Change
+                                                </span>
+                                                <h2 class="text-extra-dark-gray width-70 display-inline-block font-weight-300 letter-spacing-minus-1 md-width-70 xs-width-80 niap-content">
+                                                    We help maximize impact on the causes you are most concerned <br />about.
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end slider item -->
+                            <!-- start slider item -->
+                            <div class="swiper-slide">
+                                <div class="slider-half-small-screen position-relative bg-white">
+                                    <div class="slider-typography text-left">
+                                        <div class="slider-text-middle-main" style="background-image: url('/images/iso_Tribe.png');background-repeat: no-repeat;background-size: 50%;background-position-x: 105%;background-position-y: 95%;background-position-x: padding-box;/* background-blend-mode: luminosity; */background-color: rgba(255, 255, 255, 0.1);">
+                                            <div class="slider-text-middle">
+                                                <span class="text-extra-large text-middle-line font-weight-300 text-deep-pink display-block margin-two-bottom width-50 xs-width-65 niap-title">
+                                                    Building a Tribe
+                                                </span>
+                                                <h2 class="text-extra-dark-gray width-70 display-inline-block font-weight-300 letter-spacing-minus-1 md-width-70 xs-width-80 niap-content">
+                                                    We are a tribe of entrepreneurs, social impact investors, change-makers and dreamers
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end slider item -->
+                            <!-- start slider item -->
+                            <div class="swiper-slide">
+                                <div class="slider-half-small-screen position-relative bg-white">
+                                    <div class="slider-typography text-left">
+                                        <div class="slider-text-middle-main" style="background-image: url('/images/iso_Growth.png');background-repeat: no-repeat;background-size: 50%;background-position-x: 100%;background-position-y: 25vh;background-position-x: padding-box;/* background-blend-mode: luminosity; */background-color: rgba(255, 255, 255, 0.1);">
+                                            <div class="slider-text-middle">
+                                                <span class="text-extra-large text-middle-line font-weight-300 text-deep-green display-block margin-two-bottom width-50 xs-width-65 niap-title">
+                                                    Tangible difference
+                                                </span>
+                                                <h2 class="text-extra-dark-gray width-70 display-inline-block font-weight-300 letter-spacing-minus-1 md-width-70 xs-width-80 niap-content">
+                                                    Making a difference by growing profitable ventures and creating impact at scale
+                                                </h2>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- end slider item -->
+                        </div>
+                        <div class="swiper-pagination swiper-number"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end slider section -->
+    <!-- start masonry portfolio section -->
+    @*<section class="no-padding wow fadeIn">
+            <div class="container-fluid no-padding">
+                <div class="row no-margin">
+                    <div class="filter-content overflow-hidden">
+                        <ul class="portfolio-grid work-3col hover-option2">
+                            <li class="grid-sizer"></li>
+                            <!-- start portfolio item -->
+                            <li class="grid-item wow fadeInUp">
+                                <a href="">
+                                    <figure>
+                                        <div class="portfolio-img bg-deep-orange"><img src="http://placehold.it/800x800" alt="" /></div>
+                                        <figcaption>
+                                            <div class="portfolio-hover-main text-left">
+                                                <div class="portfolio-hover-box vertical-align-bottom">
+                                                    <div class="portfolio-hover-content position-relative last-paragraph-no-margin">
+                                                        <div class="bg-black margin-six-bottom separator-line-horrizontal-medium-light2"></div>
+                                                        <span class="line-height-normal alt-font text-white text-uppercase margin-one-half-bottom display-block font-weight-600">Social Investment + Analytics</span>
+                                                        <p class="text-white text-uppercase text-extra-small">Coming Soone...</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </figcaption>
+                                    </figure>
+                                </a>
+                            </li>
+                            <!-- end portfolio item -->
+                            <!-- start portfolio item -->
+                            <li class="grid-item wow fadeInUp" data-wow-delay="0.2s">
+                                <a href="">
+                                    <figure>
+                                        <div class="portfolio-img bg-deep-pink"><img src="" alt="" /></div>
+                                        <figcaption>
+                                            <div class="portfolio-hover-main text-left">
+                                                <div class="portfolio-hover-box vertical-align-bottom">
+                                                    <div class="portfolio-hover-content position-relative last-paragraph-no-margin">
+                                                        <div class="bg-black margin-six-bottom separator-line-horrizontal-medium-light2"></div>
+                                                        <span class="line-height-normal alt-font text-white text-uppercase margin-one-half-bottom display-block font-weight-600">Building Tribe</span>
+                                                        <p class="text-white text-uppercase text-extra-small">Coming Soone...</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </figcaption>
+                                    </figure>
+                                </a>
+                            </li>
+                            <!-- end portfolio item -->
+                            <!-- start portfolio item -->
+                            <li class="grid-item wow fadeInUp" data-wow-delay="0.4s">
+                                <a href="single-project-page-04.html">
+                                    <figure>
+                                        <div class="portfolio-img bg-deep-pink"><img src="http://placehold.it/800x800" alt="" /></div>
+                                        <figcaption>
+                                            <div class="portfolio-hover-main text-left">
+                                                <div class="portfolio-hover-box vertical-align-bottom">
+                                                    <div class="portfolio-hover-content position-relative last-paragraph-no-margin">
+                                                        <div class="bg-black margin-six-bottom separator-line-horrizontal-medium-light2"></div>
+                                                        <span class="line-height-normal alt-font text-white text-uppercase margin-one-half-bottom display-block font-weight-600">Building Tribe</span>
+                                                        <p class="text-white text-uppercase text-extra-small">Coming Soon...</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </figcaption>
+                                    </figure>
+                                </a>
+                            </li>
+                            <!-- end portfolio item -->
+                            <!-- start portfolio item -->
+                            <li class="grid-item wow fadeInUp" data-wow-delay="0.6s">
+                                <a href="single-project-page-06.html">
+                                    <figure>
+                                        <div class="portfolio-img bg-deep-green"><img src="http://placehold.it/800x800" alt="" /></div>
+                                        <figcaption>
+                                            <div class="portfolio-hover-main text-left">
+                                                <div class="portfolio-hover-box vertical-align-bottom">
+                                                    <div class="portfolio-hover-content position-relative last-paragraph-no-margin">
+                                                        <div class="bg-black margin-six-bottom separator-line-horrizontal-medium-light2"></div>
+                                                        <span class="line-height-normal alt-font text-white text-uppercase margin-one-half-bottom display-block font-weight-600">Tangible Difference</span>
+                                                        <p class="text-white text-uppercase text-extra-small">Coming Soon...</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </figcaption>
+                                    </figure>
+                                </a>
+                            </li>
+                            <!-- end portfolio item -->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>*@
+    <!-- end masonry portfolio section -->
+    <!-- start section -->
+    <!-- start client logo section -->
+    <section class="wow fadeIn big-section bg-white" style="padding:50px!important;">
+        <div class="container">
+            @*<div class="row">
+                    <div class="col-md-10 col-sm-12 col-xs-12 wow fadeIn sm-text-center">
+                        <span class="text-extra-large text-middle-line text-dark-gray display-block margin-five-bottom sm-margin-15px-bottom font-weight-300 sm-text-middle-line">
+                        Enter the community
+                        </span>
+                        <span><input type="text" placeholder="Enter email address"/></span>
+                        <h4 class="text-extra-light-gray display-inline-block font-weight-300 sm-width-80 sm-center-col xs-width-100">Enter the community.</h4>
+                    </div>
+                </div>
+                <div class="row margin-six-top xs-margin-30px-top">
+                    <!-- start client logo item -->
+                    <div class="col-md-12 col-sm-12 col-xs-12 sm-margin-two-bottom sm-text-center xs-margin-one-bottom wow fadeInUp" style="text-align: center;">
+                        <a href="" target="_blank"><img src="images/logo-9.png" alt="" class="opacity5"></a>
+                    </div>
+                    <!-- end client logo item -->
+                    <!-- start client logo item -->
+                    <div class="col-md-3 col-sm-6 col-xs-12 sm-margin-two-bottom sm-text-center xs-margin-one-bottom wow fadeInUp">
+                        <a href="https://envato.com" target="_blank"><img src="images/logo-9.png" alt="" class="opacity5"></a>
+                    </div>
+                    <!-- end client logo item -->
+                    <!-- start client logo item -->
+                    <div class="col-md-3 col-sm-6 col-xs-12 sm-margin-two-bottom sm-text-center xs-margin-one-bottom wow fadeInUp" data-wow-delay="0.2s">
+                        <a href="https://woocommerce.com" target="_blank"><img src="images/logo-10.png" alt="" class="opacity5"></a>
+                    </div>
+                    <!-- end client logo item -->
+                    <!-- start client logo item -->
+                    <div class="col-md-3 col-sm-6 col-xs-12 sm-text-center xs-margin-one-bottom wow fadeInUp" data-wow-delay="0.4s">
+                        <a href="https://magento.com" target="_blank"><img src="images/logo-11.png" alt="" class="opacity5"></a>
+                    </div>
+                    <!-- end client logo item -->
+                    <!-- start client logo item -->
+                    <div class="col-md-3 col-sm-6 col-xs-12 sm-text-center wow fadeInUp" data-wow-delay="0.6s">
+                        <a href="https://lesscss.org" target="_blank"><img src="images/logo-12.png" alt="" class="opacity5"></a>
+                    </div>
+                    <!-- end client logo item -->
+                </div>*@
+        </div>
+    </section>
+    <!-- end client logo section -->
+    <!-- end section -->
+    @*<section class="wow fadeIn big-section border-bottom border-color-extra-light-gray">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-10 col-sm-12 col-xs-12 wow fadeIn sm-text-center">
+                        <span class="text-extra-large text-middle-line text-dark-gray display-block margin-five-bottom sm-margin-15px-bottom font-weight-300 sm-text-middle-line">
+                            Enter the community
+                        </span>
+                        <div class="col-md-10">
+                            <input type="text" placeholder="Enter email address" />
+                        </div>
+                        <div class="col-md-2">
+                            <a class="btn btn-medium btn-dark-gray md-margin-15px-bottom sm-display-table sm-margin-lr-auto" href="#">Start</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>*@
+    <section id="niaRegistration" class="wow fadeIn big-section" style="visibility: visible; animation-name: fadeIn;height:100px;">
+        <div class="container">
+            <div class="row equalize sm-equalize-auto">
+                <div class="col-md-12 col-sm-12 col-xs-12 sm-margin-30px-bottom wow fadeInUp" style="visibility: visible; animation-name: fadeInUp; height: 97px;">
+                    <div class=" bg-white border-radius-6 md-padding-seven-all xs-padding-30px-all height-100" style="text-align:center;">
+                        <span class="text-extra-dark-gray alt-font text-large font-weight-600 margin-25px-bottom display-block">
+                            Enter the community
+                            <small style="font-weight:normal;">Provide your email address below to get started.</small>
+                        </span>
+                        <form id="contact-form" action="javascript:void(0)" method="post" style="text-align:center;">
+                            <div>
+                                <div id="success-contact-form" class="no-margin-lr" style="display: none;"></div>
+                                @*<input type="text" name="name" id="name" placeholder="Name*" class="border-radius-4 bg-white medium-input">*@
+                                <input type="text" name="email" id="email" placeholder="E-mail*" class="border-radius-4 bg-white medium-input" style="width:25%;">
+                                @*<input type="text" name="subject" id="subject" placeholder="Subject" class="border-radius-4 bg-white medium-input">
+                                    <textarea name="comment" id="comment" placeholder="Your Message" rows="5" class="border-radius-4 bg-white medium-textarea"></textarea>*@
+                                <button id="contact-us-button" type="submit" class="btn btn-small border-radius-4 btn-dark-gray" onclick="">Start</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                @*<div class="col-md-6 col-sm-12 col-xs-12 last-paragraph-no-margin wow fadeInRight" style="visibility: visible; animation-name: fadeInRight; height: 597px;">
+                        <div class="padding-ten-all bg-light-gray border-radius-6 md-padding-seven-all xs-padding-30px-all height-100 sm-text-center">
+                            <img src="http://placehold.it/1000x700" alt="" class="border-radius-6 margin-35px-bottom xs-margin-30px-bottom" data-no-retina="">
+                            <span class="text-large font-weight-600 alt-font text-extra-dark-gray margin-5px-bottom display-block">Let's plan for a new project?</span>
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry, Lorem Ipsum has been the standard dummy text.</p>
+                            <a href="about-us-modern.html" class="btn btn-dark-gray btn-small text-extra-small border-radius-4 margin-25px-top">About Company</a>
+                        </div>
+                    </div>*@
+            </div>
+        </div>
+    </section>
+    <section id="niaRegistrationComplete" class="wow fadeIn big-section" style="display:none; animation-name: fadeIn;height:100px;">
+        <div class="container">
+            <div class="row equalize sm-equalize-auto">
+                <div class="col-md-12 col-sm-12 col-xs-12 sm-margin-30px-bottom wow fadeInUp" style="visibility: visible; animation-name: fadeInUp; height: 97px;">
+                    <div class=" bg-white border-radius-6 md-padding-seven-all xs-padding-30px-all height-100" style="text-align:center;">
+                        <span class="text-extra-dark-gray alt-font text-large font-weight-600 margin-25px-bottom display-block">
+                            <small style="font-weight:normal;">Thanks for joining our community.  We will be reaching out to you soon with more information about our journey.</small>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- end section -->
+    <!-- start footer -->
+    <footer class="footer-strip padding-50px-tb xs-padding-30px-tb">
+        <div class="container">
+            <div class="row equalize xs-equalize-auto">
+                <!-- start logo -->
+                <div class="col-md-3 col-sm-3 col-xs-12 display-table sm-text-center xs-margin-20px-bottom">
+                    <div class="display-table-cell vertical-align-middle">
+                        @*<a href="index.html">
+                                <img class="footer-logo" src="images/logo_NiaPhilanthropy_Proof3_1280.png" data-at2x="images/logo_NiaPhilanthropy_Proof3_1280.png" alt="NIA Philanthropy">
+                            </a>*@
+                    </div>
+                </div>
+                <!-- end logo -->
+                <!-- start copyright -->
+                <div class="col-md-6 col-sm-6 col-xs-12 text-center text-small alt-font display-table xs-margin-10px-bottom sm-text-center">
+                    <div class="display-table-cell vertical-align-middle">
+                        &copy; 2019 NIA Philanthropy is Powered by <a href="http://soonie.net" target="_blank" title="sooNiE">sooNiE</a>.
+                    </div>
+                </div>
+                <!-- end copyright -->
+                <!-- start social media -->
+                <div class="col-md-3 col-sm-3 col-xs-12 display-table  text-right sm-text-center">
+                    <div class="display-table-cell vertical-align-middle">
+                        <div class="social-icon-style-8 display-inline-block vertical-align-middle">
+                            <ul class="small-icon no-margin-bottom">
+                                @*<li><a class="facebook text-extra-dark-gray" href="https://www.facebook.com/" target="_blank"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>*@
+                                <li><a class="twitter text-extra-dark-gray" href="http://www.twitter.com/niaphilanthropy" target="_blank"><i class="fa fa-twitter"></i></a></li>
+                                @*<li><a class="google text-extra-dark-gray" href="https://plus.google.com" target="_blank"><i class="fa fa-google-plus"></i></a></li>
+                                    <li><a class="dribbble text-extra-dark-gray" href="https://dribbble.com/" target="_blank"><i class="fa fa-dribbble no-margin-right" aria-hidden="true"></i></a></li>*@
+                                <li><a class="linkedin text-extra-dark-gray" href="https://www.linkedin.com/company/niaphilanthropy" target="_blank"><i class="fa fa-linkedin no-margin-right" aria-hidden="true"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <!-- end social media -->
+            </div>
+        </div>
+    </footer>
+    <!-- end footer -->
+    <!-- start scroll to top -->
+    <a class="scroll-top-arrow" href="javascript:void(0);"><i class="ti-arrow-up"></i></a>
+    <!-- end scroll to top  -->
+    <!-- Global scripts -->
+    <environment names="Development">
+        <!--
+        <script src="~/lib/json2/json2.js"></script>
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+
+        <script src="~/lib/moment/min/moment-with-locales.js"></script>
+        <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+        <script src="~/lib/blockUI/jquery.blockUI.js"></script>
+        <script src="~/lib/toastr/toastr.js"></script>
+        <script src="~/lib/sweetalert/dist/sweetalert-dev.js"></script>
+        <script src="~/lib/spin.js/spin.js"></script>
+        <script src="~/lib/spin.js/jquery.spin.js"></script>
+        <script src="~/lib/abp-web-resources/Abp/Framework/scripts/abp.js"></script>
+        <script src="~/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.jquery.js"></script>
+        <script src="~/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.toastr.js"></script>
+        <script src="~/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.blockUI.js"></script>
+        <script src="~/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.sweet-alert.js"></script>
+        <script src="~/lib/abp-web-resources/Abp/Framework/scripts/libs/abp.spin.js"></script>
+        -->
+        <!-- javascript libraries -->
+
+    </environment>
+    <environment names="Staging,Production">
+        @*<script src="~/view-resources/Views/_Bundles/layout-libs.min.js" asp-append-version="true"></script>*@
+    </environment>
+
+
+    <script>
+        @*abp.localization.defaultSourceName = '@LocalizationSourceName';
+        if (moment) { //Localizing momentjs
+            moment.locale('@CultureInfo.CurrentUICulture.Name');
+        }*@
+    </script>
+    <!-- Dynamic scripts of ABP system (They are created on runtime and can not be bundled) -->
+    @*<script src="~/AbpServiceProxies/GetAll?v=@(Clock.Now.Ticks)" type="text/javascript"></script>
+        <script src="~/AbpScripts/GetScripts?v=@(Clock.Now.Ticks)" type="text/javascript"></script>*@
+    <!-- View specific scripts -->
+    @RenderSection("scripts", required: false)
+
+    <script type="text/javascript" src="~/lib/pofo/js/jquery.js"></script>
+    <script type="text/javascript" src="~/lib/pofo/js/modernizr.js"></script>
+    <script type="text/javascript" src="~/lib/pofo/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="~/lib/pofo/js/jquery.easing.1.3.js"></script>
+    <script type="text/javascript" src="~/lib/pofo/js/skrollr.min.js"></script>
+    <script type="text/javascript" src="~/lib/pofo/js/smooth-scroll.js"></script>
+    <script type="text/javascript" src="~/lib/pofo/js/jquery.appear.js"></script>
+    <!-- menu navigation -->
+    <script type="text/javascript" src="~/lib/pofo/js/bootsnav.js"></script>
+    <script type="text/javascript" src="~/lib/pofo/js/jquery.nav.js"></script>
+    <!-- animation -->
+    <script type="text/javascript" src="~/lib/pofo/js/wow.min.js"></script>
+    <!-- page scroll -->
+    <script type="text/javascript" src="~/lib/pofo/js/page-scroll.js"></script>
+    <!-- swiper carousel -->
+    <script type="text/javascript" src="~/lib/pofo/js/swiper.min.js"></script>
+    <!-- counter -->
+    <script type="text/javascript" src="~/lib/pofo/js/jquery.count-to.js"></script>
+    <!-- parallax -->
+    <script type="text/javascript" src="~/lib/pofo/js/jquery.stellar.js"></script>
+    <!-- magnific popup -->
+    <script type="text/javascript" src="~/lib/pofo/js/jquery.magnific-popup.min.js"></script>
+    <!-- portfolio with shorting tab -->
+    <script type="text/javascript" src="~/lib/pofo/js/isotope.pkgd.min.js"></script>
+    <!-- images loaded -->
+    <script type="text/javascript" src="~/lib/pofo/js/imagesloaded.pkgd.min.js"></script>
+    <!-- pull menu -->
+    <script type="text/javascript" src="~/lib/pofo/js/classie.js"></script>
+    <script type="text/javascript" src="~/lib/pofo/js/hamburger-menu.js"></script>
+    <!-- counter  -->
+    <script type="text/javascript" src="~/lib/pofo/js/counter.js"></script>
+    <!-- fit video  -->
+    <script type="text/javascript" src="~/lib/pofo/js/jquery.fitvids.js"></script>
+    <!-- equalize -->
+    <script type="text/javascript" src="~/lib/pofo/js/equalize.min.js"></script>
+    <!-- skill bars  -->
+    <script type="text/javascript" src="~/lib/pofo/js/skill.bars.jquery.js"></script>
+    <!-- justified gallery  -->
+    <script type="text/javascript" src="~/lib/pofo/js/justified-gallery.min.js"></script>
+    <!--pie chart-->
+    <script type="text/javascript" src="~/lib/pofo/js/jquery.easypiechart.min.js"></script>
+    <!-- instagram -->
+    <script type="text/javascript" src="~/lib/pofo/js/instafeed.min.js"></script>
+    <!-- retina -->
+    <script type="text/javascript" src="~/lib/pofo/js/retina.min.js"></script>
+    <!-- revolution -->
+    <script type="text/javascript" src="~/lib/revolution/js/jquery.themepunch.tools.min.js"></script>
+    <script type="text/javascript" src="~/lib/revolution/js/jquery.themepunch.revolution.min.js"></script>
+    <!-- revolution slider extensions (load below extensions JS files only on local file systems to make the slider work! The following part can be removed on server for on demand loading) -->
+    @*<script type="text/javascript" src="~/lib/revolution/js/extensions/revolution.extension.actions.min.js"></script>
+        <script type="text/javascript" src="~/lib/revolution/js/extensions/revolution.extension.carousel.min.js"></script>
+        <script type="text/javascript" src="~/lib/revolution/js/extensions/revolution.extension.kenburn.min.js"></script>
+        <script type="text/javascript" src="~/lib/revolution/js/extensions/revolution.extension.layeranimation.min.js"></script>
+        <script type="text/javascript" src="~/lib/revolution/js/extensions/revolution.extension.migration.min.js"></script>
+        <script type="text/javascript" src="~/lib/revolution/js/extensions/revolution.extension.navigation.min.js"></script>
+        <script type="text/javascript" src="~/lib/revolution/js/extensions/revolution.extension.parallax.min.js"></script>
+        <script type="text/javascript" src="~/lib/revolution/js/extensions/revolution.extension.slideanims.min.js"></script>
+        <script type="text/javascript" src="~/lib/revolution/js/extensions/revolution.extension.video.min.js"></script>*@
+    <script type="text/javascript" src="~/lib/pofo/js/main.js"></script>
+
+    <script>
+    </script>
+</body>
+</html>
